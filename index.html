@@ -19,19 +19,58 @@
                 </div>
                 
                </nav> 
-               <img src="media/468-thumbnail.png" class="song-img"> 
+               <img src="media/download.jpeg" class="song-img"> 
                <h1>Red right hand</h1>
                <p>Nick Cave and the bad seeds</p>
-               <audio controls>
+
+               <audio id="song">
                 <source src="media/red_right_hand.mp3" type="audio/mpeg">
                </audio>
-               <input type="range" value="0" id="progress">
+                 <input type="range" value="0" id="progress">
+
             <div class="controls">
                 <div><i class="fa-solid fa-backward"></i></div>
-                <div><i class="fa-solid fa-play"></i></div>
+                <div onclick="playPause()"><i class="fa-solid fa-play" id="ctrlIcon"></i></div>
                 <div><i class="fa-solid fa-forward"></i></div>
             </div>
             </div>
         </div>
+
+        <script>
+            let progress=document.getElementById("progress");
+            let song=document.getElementById("song");
+            let ctrlIcon=document.getElementById("ctrlIcon");
+
+            song.onloadedmetadata=function(){
+                progress.max = song.duration;
+                progress.value = song.currentTime;
+            }
+
+            function playPause(){
+                if(ctrlIcon.classList.contains("fa-pause")){
+                    song.pause();
+                    ctrlIcon.classList.remove("fa-pause");
+                    ctrlIcon.classList.add("fa-play");
+                }
+                else{
+                    song.play();
+                    ctrlIcon.classList.add("fa-pause");
+                    ctrlIcon.classList.remove("fa-play");
+                }
+            }
+
+             song.addEventListener('timeupdate', () => {
+                progress.value = song.currentTime;
+              });
+
+            progress.onchange =function(){
+                
+                song.currentTime=progress.value;
+                song.play();
+                ctrlIcon.classList.add("fa-pause");
+                ctrlIcon.classList.remove("fa-play");
+            }
+
+        </script>
     </body>
 </html>
